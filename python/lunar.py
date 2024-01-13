@@ -12,7 +12,7 @@ def convert_date(date_str):
     # 解析日期
     dt = datetime.strptime(date_str, "%Y年%m月%d日")
     # 格式化日期
-    formatted_date = dt.strftime("%Y-%m-%d")
+    formatted_date = dt.strftime("%m-%d")
     return formatted_date
 
 
@@ -23,27 +23,22 @@ def fetch_lunar_by_year(year):
     }
     response = requests.get(url, headers=headers)
     response.encoding = chardet.detect(response.content)['encoding']
-    # 在这里添加日志记录，记录请求的 URL 和响应状态码
     print(f'Fetching {year} : {response.status_code}!')
-    return response.text
+    return {
+        'data': response.text,
+        'year': year
+    }
 
 
 def concat_responses(years):
     with ThreadPoolExecutor(max_workers=len(years)) as executor:
         # 使用map来保持结果的顺序
         responses = executor.map(fetch_lunar_by_year, years)
-
-        # 拼接所有响应结果
-        combined_result = ''.join(responses)
-        print('Combine completed!')
-        return combined_result
+        return responses
 
 
-def handle_response(response):
-    print('Start handle data!')
+def handle_response(response, month, gan_zhi, chinese_zodiac_sign):
     data = {}
-    month = ''
-    gan_zhi = ''
     # 按行读取相应内容
     lines = response.split('\n')
     for i, line in enumerate(lines):
@@ -70,11 +65,16 @@ def handle_response(response):
             'chinese_zodiac_sign': chinese_zodiac_sign,
             'month': lunar[:-2],
             'day': lunar[-2:],
-            'week': week,
-            'solar_term': solar_term
+            'week': week
         }
-    print('Handle data done!')
-    return data
+        if solar_term != None:
+            data[convert_date(date)]['solar_term'] = solar_term
+    return {
+        'data': data,
+        'month': month,
+        'gan_zhi': gan_zhi,
+        'chinese_zodiac_sign': chinese_zodiac_sign
+    }
 
 
 def write_file(data, path):
@@ -85,13 +85,32 @@ def write_file(data, path):
     # 创建新文件并写入数据
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
-        print('Write file done!')
+        print(f'Write file done: {path}!')
 
 
-years = list(range(1901, 2101))
-response = concat_responses(years)
-result = handle_response(response)
+def handle_responses(responses, path):
+    month = ''
+    gan_zhi = ''
+    chinese_zodiac_sign = ''
+    # 遍历所有响应，处理数据
+    for response in responses:
+        year = response['year']
+        data = response['data']
+        handled_data = handle_response(
+            data, month, gan_zhi, chinese_zodiac_sign)
+        month = handled_data['month']
+        gan_zhi = handled_data['gan_zhi']
+        chinese_zodiac_sign = handled_data['chinese_zodiac_sign']
+        print(f'Handle data done: {year}!')
+        write_file(handled_data['data'], f'{path}\{year}.json')
 
-filename = '1901-2100_lunar.json'
-data_folder = os.path.dirname(os.getcwd()) + '\data'
-write_file(result, f'{data_folder}\{filename}')
+
+def main():
+    years = list(range(1901, 2101))
+    responses = concat_responses(years)
+    data_folder = os.path.dirname(os.getcwd()) + '\data'
+    handle_responses(responses, data_folder)
+
+
+if __name__ == '__main__':
+    main()

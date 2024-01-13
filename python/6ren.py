@@ -71,12 +71,14 @@ def get_chinese_time(now):
 
 
 def get_lunar(date):
+    year = date[:4]
+    date_time = date[5:]
     # 获取当前日期的农历
-    filename = '1901-2100_lunar.json'
+    filename = f'{year}.json'
     data_folder = os.path.dirname(os.getcwd()) + '\data'
     with open(f'{data_folder}\{filename}', 'r', encoding='utf-8') as file:
         data = json.load(file)
-        return data[date]
+        return data[date_time]
 
 
 def get_result(sum):
@@ -86,7 +88,6 @@ def get_result(sum):
 def main():
     current_time = get_chinese_time(now)
     current_time_index = time_list.index(current_time)
-
     current_date = now.strftime("%Y-%m-%d")
     current_lunar = get_lunar(current_date)
     current_lunar_month = current_lunar['month']
@@ -95,8 +96,6 @@ def main():
     current_lunar_day_index = day_list.index(current_lunar_day)
 
     sum = current_lunar_month_index + current_lunar_day_index + current_time_index
-    print(current_lunar_month_index, current_lunar_day_index, current_time_index)
-
     result = get_result(sum)
 
     print(
