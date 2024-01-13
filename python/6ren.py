@@ -44,30 +44,12 @@ now = datetime.now()
 def get_chinese_time(now):
     # 判断当前时间介于哪个时辰
     hour = now.hour
-    if hour == 23 or hour == 0:
-        return time_list[0]
-    elif hour == 1 or hour == 2:
-        return time_list[1]
-    elif hour == 3 or hour == 4:
-        return time_list[2]
-    elif hour == 5 or hour == 6:
-        return time_list[3]
-    elif hour == 7 or hour == 8:
-        return time_list[4]
-    elif hour == 9 or hour == 10:
-        return time_list[5]
-    elif hour == 11 or hour == 12:
-        return time_list[6]
-    elif hour == 13 or hour == 14:
-        return time_list[7]
-    elif hour == 15 or hour == 16:
-        return time_list[8]
-    elif hour == 17 or hour == 18:
-        return time_list[9]
-    elif hour == 19 or hour == 20:
-        return time_list[10]
-    elif hour == 21 or hour == 22:
-        return time_list[11]
+    # 将小时数映射到列表索引上
+    index = hour // 2
+    # 由于0和23小时映射到相同的索引，需要单独处理23小时的情况
+    if hour == 23:
+        index = 0
+    return time_list[index]
 
 
 def get_lunar(date):
