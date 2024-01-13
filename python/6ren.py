@@ -80,7 +80,7 @@ def get_lunar(date):
 
 
 def get_result(sum):
-    return (sum - 2) % 6
+    return (sum) % 6
 
 
 def main():
@@ -95,6 +95,7 @@ def main():
     current_lunar_day_index = day_list.index(current_lunar_day)
 
     sum = current_lunar_month_index + current_lunar_day_index + current_time_index
+    print(current_lunar_month_index, current_lunar_day_index, current_time_index)
 
     result = get_result(sum)
 
