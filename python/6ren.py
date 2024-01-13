@@ -57,7 +57,7 @@ def get_lunar(date):
     date_time = date[5:]
     # 获取当前日期的农历
     filename = f'{year}.json'
-    data_folder = os.path.dirname(os.getcwd()) + '\data'
+    data_folder = os.path.dirname(os.getcwd()) + '\lunar\data'
     with open(f'{data_folder}\{filename}', 'r', encoding='utf-8') as file:
         data = json.load(file)
         return data[date_time]

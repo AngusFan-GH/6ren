@@ -108,7 +108,7 @@ def handle_responses(responses, path):
 def main():
     years = list(range(1901, 2101))
     responses = concat_responses(years)
-    data_folder = os.path.dirname(os.getcwd()) + '\data'
+    data_folder = os.path.dirname(os.getcwd()) + '\lunar\data'
     handle_responses(responses, data_folder)
 
 
