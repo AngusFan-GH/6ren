@@ -4,7 +4,7 @@
             <h1 class="title">小六壬</h1>
         </div>
         <div class="content">
-            <button class="btn" @click="loadData">起卦</button>
+            <button class="btn" v-if="!result" @click="loadData">起卦</button>
             <div class="info">
                 <span class="date" v-if="date">{{ date }}</span>
                 <span class="status" v-if="result">{{ result }}</span>
