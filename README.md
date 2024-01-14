@@ -46,6 +46,24 @@ python 6ren.py
 断曰：大安事事昌，求财在坤方，失物去不远，宅舍保安康。行人身未动，病者主无妨，将军回田野，仔细兴推祥。
 ```
 
+## chrome插件
+### 安装
+执行如下代码：
+```cmd
+cd plugin
+npm install
+npm run build
+```
+然后在chrome中打开`chrome://extensions/`，点击左上方`加载已解压的扩展程序`，选择`plugin/build`目录下对应的`plugin-v版本号`文件夹即可。
+## 使用
+点击浏览器右上角的插件图标，然后在弹出的页面中点击起卦按钮，即可获取六壬结果。
+
+![Alt text](docs/images/image-2.png)
+
+结果展示如下：
+
+![Alt text](docs/images/image-1.png)
+
 ## 补充说明
 卜算之事，玄而又玄，自行斟酌。
 
