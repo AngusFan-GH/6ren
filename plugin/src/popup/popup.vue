@@ -7,7 +7,7 @@
             <button class="btn" v-if="!result" @click="loadData">起卦</button>
             <div class="info">
                 <span class="date" v-if="date">{{ date }}</span>
-                <span class="status" v-if="result">{{ result }}</span>
+                <span class="status" :class="{ 'unlucky': resultIndex % 2 }" v-if="result">{{ result }}</span>
             </div>
             <div v-if="guaCi">
                 <div class="verse" v-for="(item, i) in guaCi.split('；')" :key="i">{{ item }}{{ i === 0 ? '；' : '。' }}</div>
@@ -26,6 +26,7 @@ export default defineComponent({
     setup() {
         const date = ref('');
         const result = ref('');
+        const resultIndex = ref(0);
         const guaCi = ref('');
         function loadData() {
             const currentDate: Date = new Date();
@@ -48,9 +49,10 @@ export default defineComponent({
                     const monthIndex = MonthList.indexOf(lunarData.month);
                     const dayIndex = DayList.indexOf(lunarData.day);
                     const sum = monthIndex + dayIndex + timeIndex;
-                    const resultIndex = getResult(sum);
-                    result.value = ResultList[resultIndex];
-                    guaCi.value = GuaCi[resultIndex];
+                    const index = getResult(sum);
+                    resultIndex.value = index;
+                    result.value = ResultList[index];
+                    guaCi.value = GuaCi[index];
                 }
             });
         }
@@ -67,7 +69,7 @@ export default defineComponent({
             const index = sum % 6;
             return index;
         }
-        return { date, result, guaCi, loadData };
+        return { date, result, resultIndex, guaCi, loadData };
     }
 });
 </script>
@@ -104,7 +106,6 @@ export default defineComponent({
             cursor: pointer;
             padding: 10px 100px;
             font-size: 18px;
-            margin-bottom: 15px;
             white-space: nowrap;
 
             &:hover {
@@ -113,7 +114,7 @@ export default defineComponent({
         }
 
         .info {
-            margin: 10px 0;
+            margin: 15px 0 10px;
 
             .date {
                 display: block;
@@ -124,10 +125,14 @@ export default defineComponent({
 
             .status {
                 display: block;
-                color: #333;
+                color: #f00;
                 font-size: 27px;
                 font-weight: 900;
                 margin-bottom: 5px;
+
+                &.unlucky {
+                    color: #333;
+                }
             }
         }
 
