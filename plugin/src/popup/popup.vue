@@ -4,8 +4,11 @@
             <h1 class="title">小六壬</h1>
         </div>
         <div class="content">
-            <button class="btn" v-if="!result" @click="loadData">起卦</button>
-            <div class="info">
+            <div v-if="!result">
+                <button class="btn" @click="loadData">起卦</button>
+                <div class="tips">一事一卦，多测不灵。</div>
+            </div>
+            <div class="info" v-else>
                 <span class="date" v-if="date">{{ date }}</span>
                 <span class="status" :class="{ 'unlucky': resultIndex % 2 }" v-if="result">{{ result }}</span>
             </div>
@@ -111,6 +114,12 @@ export default defineComponent({
             &:hover {
                 background-color: darken(#42b983, 10%);
             }
+        }
+
+        .tips {
+            color: #999;
+            font-size: 18px;
+            margin-top: 15px;
         }
 
         .info {
