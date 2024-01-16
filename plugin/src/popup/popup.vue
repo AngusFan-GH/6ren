@@ -13,7 +13,8 @@
                 <span class="status" :class="{ 'unlucky': resultIndex % 2 }" v-if="result">{{ result }}</span>
             </div>
             <div v-if="guaCi">
-                <div class="verse" v-for="(item, i) in guaCi.split('；')" :key="i">{{ item }}{{ i === 0 ? '；' : '。' }}</div>
+                <div class="verse" v-for="(item, i) in guaCi.split('；')" :key="i">{{ item }}{{ i === 0 ? '；' : '' }}
+                </div>
             </div>
         </div>
     </div>
