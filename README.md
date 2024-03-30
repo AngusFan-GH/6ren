@@ -64,6 +64,12 @@ npm run build
 
 ![Alt text](docs/images/image-1.png)
 
+## IOS小组件
+### 使用
+在iphone中，将`widget`文件夹下的`6ren.js`文件夹拷贝到`Scriptable`App中，然后添加小组件即可。小组件展示如图：
+
+![Alt text](docs/images/widget.jpg)
+
 ## 补充说明
 卜算之事，玄而又玄，自行斟酌。
 
