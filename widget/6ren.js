@@ -28,7 +28,7 @@ async function loadData() {
     const formattedDate = `${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
 
     // 构建请求 URL
-    const url = `https://gitee.com/AngusFan/6ren/raw/master/lunar/data/${year}.json`;
+    const url = `https://api.github.com/repos/AngusFan-GH/6ren/contents/lunar/data/${year}.json`;
     let req = new Request(url);
     let data = await req.loadJSON();
 
